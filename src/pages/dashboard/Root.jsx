@@ -1,6 +1,18 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, redirect } from "react-router-dom";
+
+export async function loader() {
+  const currentUser = localStorage.getItem("token");
+  if (!currentUser) {
+    return redirect("/login");
+  }
+  return null;
+}
 
 const Root = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
   return (
     <>
       <aside
@@ -24,6 +36,17 @@ const Root = () => {
             </li>
             <li>
               <Link to={"/dashboard/settings"}>Settings</Link>
+            </li>
+            <li>
+              <a
+                role="button"
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </a>
             </li>
           </ul>
         </div>

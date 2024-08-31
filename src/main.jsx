@@ -11,10 +11,13 @@ import Products from "./pages/Products";
 import ProductsDetail, {
   loader as productLoader,
 } from "./pages/ProductsDetail";
+
 import Dashboard from "./pages/dashboard/Dashboard";
 import Users from "./pages/dashboard/Users";
 import Setting from "./pages/dashboard/Settings";
-import Root from "./pages/dashboard/Root";
+import Login, { loader as loginLoader } from "./pages/dashboard/Login";
+
+import Root, { loader as rootLoader } from "./pages/dashboard/Root";
 import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
@@ -38,17 +41,23 @@ const router = createBrowserRouter([
     element: <ProductsDetail />,
     loader: productLoader,
   },
-
+  {
+    path: "/login",
+    element: <Login />,
+    loader: loginLoader,
+  },
   // nested routes
   {
     path: "/dashboard",
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: rootLoader,
     children: [
       {
-        path: "/dashboard/",
+        path: "/dashboard",
         element: <Dashboard />,
       },
+
       {
         path: "/dashboard/users",
         element: <Users />,

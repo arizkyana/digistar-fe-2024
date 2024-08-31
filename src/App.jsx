@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <Heading text="Hacker Front End 8 dari Props dan beda folder" />
+      <Heading text="" />
       <div className="card">
         <button onClick={() => setCount(count + 1)}>count is {count}</button>
         <p>

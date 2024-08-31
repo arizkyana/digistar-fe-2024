@@ -16,9 +16,10 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Users from "./pages/dashboard/Users";
 import Setting from "./pages/dashboard/Settings";
 import Login, { loader as loginLoader } from "./pages/dashboard/Login";
-
 import Root, { loader as rootLoader } from "./pages/dashboard/Root";
 import ErrorPage from "./pages/ErrorPage";
+import Celengan from "./pages/tabungan/Celengan";
+import Atm from "./pages/tabungan/Atm";
 
 const router = createBrowserRouter([
   // basic
@@ -33,6 +34,15 @@ const router = createBrowserRouter([
   {
     path: "/products",
     element: <Products />,
+  },
+
+  {
+    path: "/celengan",
+    element: <Celengan />,
+  },
+  {
+    path: "/atm",
+    element: <Atm />,
   },
 
   // parameter

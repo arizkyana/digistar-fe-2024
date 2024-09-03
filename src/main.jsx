@@ -20,6 +20,8 @@ import Root, { loader as rootLoader } from "./pages/dashboard/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Celengan from "./pages/tabungan/Celengan";
 import Atm from "./pages/tabungan/Atm";
+import WithClass from "./pages/siklus/WithClass";
+import WithFunction from "./pages/siklus/WithFunction";
 
 const router = createBrowserRouter([
   // basic
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
     element: <Atm />,
   },
 
+  {
+    path: "/with-class",
+    element: <WithClass />,
+  },
+  {
+    path: "/with-function",
+    element: <WithFunction />,
+  },
   // parameter
   {
     path: "/products/:id",

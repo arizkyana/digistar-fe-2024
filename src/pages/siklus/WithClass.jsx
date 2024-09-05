@@ -1,5 +1,4 @@
 import { Component } from "react";
-
 import styles from "./cycle.module.css";
 
 class WithClass extends Component {
@@ -14,52 +13,41 @@ class WithClass extends Component {
         skip: 0,
       },
     };
+    this.prevSkip = 0; // Track the previous skip value
   }
 
   async componentDidMount() {
-    await this.fetchProducts();
+    await this.fetchProducts({});
   }
 
-  async componentDidUpdate() {
-    console.log("component did update...");
-    await this.fetchProducts();
+  async componentDidUpdate(prevProps, prevState) {
+    if (this.state.params.skip !== prevState.params.skip) {
+      // Only fetch products if skip value has changed
+      await this.fetchProducts(this.state.params);
+    }
   }
 
-  async fetchProducts() {
+  async fetchProducts(params) {
+    const { limit = 10, skip = 0 } = params;
     try {
-      this.setState((state) => (state.loading = true));
+      this.setState({ loading: true });
       const result = await fetch(
-        `https://dummyjson.com/products?limit=${this.state.params.limit}&skip=${this.state.params.skip}`
+        `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
       );
       const data = await result.json();
-      this.setState((state) => (state.products = data.products));
+      this.setState({ products: data.products });
     } catch (error) {
       console.log("error > ", error);
     } finally {
-      this.setState((state) => (state.loading = false));
+      this.setState({ loading: false });
     }
   }
 
   render() {
     return (
-      <div>
-        <h1 className={styles.heading}>With Class</h1>
+      <div className={styles.container}>
+        <h1 className={styles.heading}>Products</h1>
         <div>
-          <div>counter {this.state.counter}</div>
-          <button
-            type="button"
-            onClick={() =>
-              this.setState((state) => ({
-                ...state,
-                counter: this.state.counter + 1,
-              }))
-            }
-          >
-            click me
-          </button>
-        </div>
-        <div>
-          <h2>Load products</h2>
           {this.state.loading ? (
             "loading..."
           ) : (
@@ -78,7 +66,6 @@ class WithClass extends Component {
           )}
         </div>
         <div className={styles.paginationContainer}>
-          <button type="button">Prev</button>
           <button
             type="button"
             onClick={() =>
@@ -86,7 +73,21 @@ class WithClass extends Component {
                 ...state,
                 params: {
                   ...state.params,
-                  skip: this.state.skip + 9,
+                  skip: Math.max(state.params.skip - 9, 0),
+                },
+              }))
+            }
+          >
+            Prev
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              this.setState((state) => ({
+                ...state,
+                params: {
+                  ...state.params,
+                  skip: state.params.skip + 9,
                 },
               }))
             }
